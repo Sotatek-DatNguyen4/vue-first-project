@@ -15,16 +15,20 @@
   .layout {
     display: flex;
   }
+  .left {
+    flex: 0 0 250px;
+    max-width: 250px;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #1d2451;
+  }
 
   nav {
-    width: 100%;
-    font-size: 12px;
-    text-align: center;
-    margin-top: 2rem;
+    width: 100%;;
   }
 
   nav a.router-link-exact-active {
-    color: var(--color-text);
+    color: yellow;
   }
 
   nav a.router-link-exact-active:hover {
@@ -32,12 +36,8 @@
   }
 
   nav a {
-    display: inline-block;
-    padding: 0 1rem;
-    border-left: 1px solid var(--color-border);
-  }
-
-  nav a:first-of-type {
-    border: 0;
+    display: block;
+    padding: 10px 15px;
+    color: #fff;
   }
 </style>
