@@ -3,6 +3,20 @@ import AxiosUtils from "@/axios-utils";
 import {saveToken, removeToken} from "@/utils/auth";
 import router from '@/router';
 
+const blackBooksInitial = {
+  data: [],
+  loading: false,
+  error: '',
+  total: 0,
+  paramsData: {
+    page: 1,
+    limit: 10,
+    name: '',
+    startDate: '',
+    endDate: '',
+  },
+};
+
 const store = createStore({
   state () {
     return {
@@ -10,7 +24,8 @@ const store = createStore({
         isLoading: false,
         data: null,
         error: '',
-      }
+      },
+      blackBooks: blackBooksInitial
     }
   },
   mutations: {
@@ -40,8 +55,34 @@ const store = createStore({
         data: null,
         error: '',
       };
-    }
-
+    },
+    getBlackBooksLoading (state: any) {
+      state.blackBooks = {
+        isLoading: true,
+        data: [],
+        error: '',
+      };
+    },
+    getBlackBooksSuccess (state: any, payload: any) {
+      state.blackBooks = {
+        isLoading: false,
+        data: payload.list,
+        total: payload.count,
+        error: '',
+      };
+    },
+    getBlackBooksFailure (state: any, payload: any) {
+      state.blackBooks = {
+        isLoading: false,
+        data: [],
+        error: payload,
+      };
+    },
+    setParamsBlackBooks (state: any, payload: any) {
+      state.blackBooks = {
+        paramsData: payload ? {...state.blackBooks.paramsData, ...payload} : blackBooksInitial.paramsData
+      };
+    },
   },
   actions: {
     async login ({ commit } : any, loginData: any) {
@@ -59,7 +100,19 @@ const store = createStore({
       commit('logout');
       removeToken();
       router.push({path: '/login'});
-    }
+    },
+    async getBlackBooks ({ commit } : any, params: any) {
+      try {
+        commit('getBlackBooksLoading');
+        const apiResponse: any = await AxiosUtils.get('/black-book', params);
+        commit('getBlackBooksSuccess', apiResponse.data);
+      } catch (error) {
+        commit('getBlackBooksFailure', error);
+      }
+    },
+    setParamsBlackBook ({ commit } : any, params: any) {
+      commit('setParamsBlackBooks', params);
+    },
   }
 });
 

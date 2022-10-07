@@ -4,6 +4,7 @@
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/blackbook">Black book</RouterLink>
       </nav>
       <div>
         <button @click="onLogout">Logout</button>
