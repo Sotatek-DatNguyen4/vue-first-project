@@ -1,10 +1,19 @@
 import axios from 'axios';
+import { getToken } from "@/utils/auth";
 
 const AxiosClient = axios.create({
   baseURL: 'http://192.168.1.206:3000/api',
   headers: {
     'Content-Type': 'application/json',
   },
+});
+
+AxiosClient.interceptors.request.use((req) => {
+  const token = getToken();
+  if (token && req.headers) {
+    req.headers['Authorization'] = `Bearer ${token}`;
+  }
+  return req;
 });
 
 AxiosClient.interceptors.response.use(
