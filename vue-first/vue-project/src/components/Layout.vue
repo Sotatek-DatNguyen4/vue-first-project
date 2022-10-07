@@ -5,12 +5,26 @@
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
+      <div>
+        <button @click="onLogout">Logout</button>
+      </div>
     </div>
     <div class="right">
       <slot name="children" />
     </div>
   </div>
 </template>
+<script lang="ts">
+  import { defineComponent } from 'vue';
+  import {mapActions } from "vuex";
+  export default defineComponent({
+    methods: {
+      ...mapActions({
+        onLogout: 'logout',
+      }),
+    }
+  });
+</script>
 <style scoped>
   .layout {
     display: flex;

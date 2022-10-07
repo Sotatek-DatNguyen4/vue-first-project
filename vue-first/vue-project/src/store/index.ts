@@ -1,6 +1,6 @@
 import {createStore} from "vuex";
 import AxiosUtils from "@/axios-utils";
-import {saveToken} from "@/utils/auth";
+import {saveToken, removeToken} from "@/utils/auth";
 import router from '@/router';
 
 const store = createStore({
@@ -33,7 +33,15 @@ const store = createStore({
         isLoading: false,
         error: payload,
       };
+    },
+    logout (state) {
+      state.login = {
+        isLoading: false,
+        data: null,
+        error: '',
+      };
     }
+
   },
   actions: {
     async login ({ commit } : any, loginData: any) {
@@ -47,6 +55,11 @@ const store = createStore({
         commit('loginFailure', error);
       }
     },
+    logout ({commit}) {
+      commit('logout');
+      removeToken();
+      router.push({path: '/login'});
+    }
   }
 });
 

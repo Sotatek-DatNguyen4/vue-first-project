@@ -1,11 +1,10 @@
 <template>
   <a-form
     :model="formState"
-    name="basic"
-    :label-col="{ span: 8 }"
-    :wrapper-col="{ span: 16 }"
+    name="loginForm"
     autocomplete="off"
     @finish="onFinish"
+    layout="vertical"
   >
     <a-form-item
       label="Email"
@@ -23,11 +22,26 @@
       <a-input-password v-model:value="formState.password" />
     </a-form-item>
 
-    <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-      <a-button type="primary" html-type="submit" v-bind:loading="login.isLoading">Submit</a-button>
+    <a-form-item>
+      <a-button type="primary" html-type="submit" v-bind:loading="login.isLoading">Login</a-button>
     </a-form-item>
+
+    <div class="error" v-if="login.error">{{login.error}}</div>
+
   </a-form>
 </template>
+
+<style scoped>
+  .ant-form {
+    width: 500px;
+    margin: 100px auto;
+  }
+  .error {
+    color: red;
+    text-align: center;
+  }
+</style>
+
 <script lang="ts">
   import { defineComponent, reactive } from 'vue';
   import {mapActions, mapState} from "vuex";
